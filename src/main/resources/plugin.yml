@@ -1,0 +1,20 @@
+name: AntiCaps
+main: com.AntiCaps
+version: ${version}
+api-version: 1.13
+author: [TeamMT, Kre0lidge]
+description: A simple plugin to prevent caps in chat
+
+commands:
+  anticaps:
+    description: Reload AntiCaps configuration.
+    usage: /anticaps reload
+    permission: anticaps.reload
+
+permissions:
+  anticaps.bypass:
+    description: Bypass the AntiCaps filter.
+    default: op
+  anticaps.reload:
+    description: Reload the AntiCaps configuration files.
+    default: op

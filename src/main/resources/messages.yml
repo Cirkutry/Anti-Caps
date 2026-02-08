@@ -1,0 +1,5 @@
+prefix: "&7[&cAntiCaps&7] "
+messages:
+    filter-applied: "&cYour message has been modified because it contained too much caps!"
+    no-permission: "&cYou don't have permission to do that."
+    reload-success: "&aConfig reloaded."
