@@ -36,9 +36,12 @@ public class PipelineApplier implements Listener {
         String filtered = pipeline.filter(message);
         boolean applied = !filtered.equals(message);
         if (applied) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                plugin.sendMessage("filter-applied", event.getPlayer());
-            }, 1);
+            boolean silent = plugin.getConfig().getBoolean("silent", false);
+            if (!silent) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                    plugin.sendMessage("filter-applied", event.getPlayer());
+                }, 1);
+            }
         }
 
         if (debug) {

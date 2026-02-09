@@ -18,5 +18,8 @@ allow-messages-under: 4
 # Ex: 10 = 10% uppercase is the threshold
 ratio: 10
 
+# If true, the plugin will not notify the player when their message is modified
+silent: false
+
 # Enables console logging for captured chat messages and filtering actions
 debug: false
