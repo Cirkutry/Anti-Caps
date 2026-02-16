@@ -1,7 +1,11 @@
 package filter;
 
 import com.AntiCaps;
+import java.util.Locale;
 
+/**
+ * Filters messages with excessive capitalization.
+ */
 public class MessagePipeline {
     private final AntiCaps plugin;
 
@@ -10,33 +14,48 @@ public class MessagePipeline {
     }
 
     /**
-     * This method will return what percentage (0.0-100.0) of the
-     * message is in caps.
-     * 
-     * @param message - The message to check
-     * @return - The percentage of the message that is in caps
+     * Returns the percentage (0.0-100.0) of letters that are uppercase.
      */
     public double countPercentage(String message) {
-        int total = message.length();
-        if (total == 0)
-            return 0.0;
+        int total = 0;
         int caps = 0;
         for (char c : message.toCharArray()) {
-            if (Character.isUpperCase(c))
-                caps++;
+            if (Character.isLetter(c)) {
+                total++;
+                if (Character.isUpperCase(c))
+                    caps++;
+            }
         }
+        if (total == 0)
+            return 0.0;
         return ((double) caps / (double) total) * 100.0;
     }
 
-    private String decapitalize(String word) {
-        boolean firstCapital = Character.isUpperCase(word.charAt(0));
+    /**
+     * Converts message to lowercase while preserving the first letter's capitalization.
+     */
+    private String normalizeCaps(String message) {
+        int firstAlphaIndex = -1;
+        boolean firstAlphaUpper = false;
+        for (int i = 0; i < message.length(); i++) {
+            char c = message.charAt(i);
+            if (Character.isLetter(c)) {
+                firstAlphaIndex = i;
+                firstAlphaUpper = Character.isUpperCase(c);
+                break;
+            }
+        }
 
-        if (firstCapital)
-            return word.charAt(0) + word.substring(1).toLowerCase();
-        else
-            return word.toLowerCase();
+        char[] normalized = message.toLowerCase(Locale.ROOT).toCharArray();
+        if (firstAlphaIndex >= 0 && firstAlphaUpper) {
+            normalized[firstAlphaIndex] = Character.toUpperCase(normalized[firstAlphaIndex]);
+        }
+        return new String(normalized);
     }
 
+    /**
+     * Filters the message by normalizing capitalization if it exceeds the configured ratio.
+     */
     public String filter(String message) {
         double perc = countPercentage(message);
         if (perc < getRatio())
@@ -44,16 +63,7 @@ public class MessagePipeline {
         if (message.length() < getLowerLimit())
             return message;
 
-        // Go backwards, decapitalizing words as we go
-        String[] words = message.split(" ");
-        int index = words.length - 1;
-        while (perc > getRatio() && index >= 0) {
-            words[index] = decapitalize(words[index]);
-            perc = countPercentage(String.join(" ", words));
-            index--;
-        }
-
-        return String.join(" ", words);
+        return normalizeCaps(message);
     }
 
     public double getRatio() {

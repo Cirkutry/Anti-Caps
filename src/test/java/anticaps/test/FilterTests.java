@@ -64,14 +64,17 @@ public class FilterTests {
 
         assertEquals(message, filtered);
 
-        message = "AAA Aaa";
+        // Test case with special characters and whitespace (should ignore them in percentage calculation)
+        message = ": :AAAAA AAaaa: :";
         filtered = pipeline.filter(message);
 
-        assertEquals(message, filtered);
+        assertEquals(": :Aaaaa aaaaa: :", filtered);
 
-        message = "ПРОВЕРКА ЗВУКА";
+        // Test case with sentences using Title Case
+        when(pipeline.getRatio()).thenReturn(10.0);
+        message = "The Quick Brown Fox Jumps Over Lazy Dogs Near The River";
         filtered = pipeline.filter(message);
 
-        assertEquals("Проверка Звука", filtered);
+        assertEquals("The quick brown fox jumps over lazy dogs near the river", filtered);
     }
 }

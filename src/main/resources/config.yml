@@ -1,18 +1,18 @@
                             
-#                             
-# ▄████▄ ███  ██ ██████ ██    
-# ██▄▄██ ██ ▀▄██   ██   ██    
-# ██  ██ ██   ██   ██   ██            
-#                             
-# ▄█████ ▄████▄ █████▄ ▄█████ 
-# ██     ██▄▄██ ██▄▄█▀ ▀▀▀▄▄▄ 
-# ▀█████ ██  ██ ██     █████▀ 
-#                
-#        - TeamMT & Kre0lidge              
+#
+# ▄████▄ ███  ██ ██████ ██
+# ██▄▄██ ██ ▀▄██   ██   ██
+# ██  ██ ██   ██   ██   ██
+#
+# ▄█████ ▄████▄ █████▄ ▄█████
+# ██     ██▄▄██ ██▄▄█▀ ▀▀▀▄▄▄
+# ▀█████ ██  ██ ██     █████▀
+#
+#        - TeamMT & Kre0lidge
 
 # This is to allow for short messages like "WOW" or "GG"
 # Ex: 4 = Message containing less than 4 characters will be ignored
-allow-messages-under: 4 
+allow-messages-under: 4
 
 # Any message containing more than x% uppercase letters will be modified
 # Ex: 10 = 10% uppercase is the threshold

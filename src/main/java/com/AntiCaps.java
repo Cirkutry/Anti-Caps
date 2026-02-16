@@ -13,13 +13,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import filter.MessagePipeline;
 import filter.PipelineApplier;
 
+/**
+ * Main plugin class
+ */
 public class AntiCaps extends JavaPlugin {
     private static final String MESSAGES_FILE = "messages.yml";
 
     private FileConfiguration messagesConfig;
 
     private MessagePipeline pipeline;
-
+    
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -29,7 +32,7 @@ public class AntiCaps extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PipelineApplier(this, pipeline), this);
     }
-
+    
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!command.getName().equalsIgnoreCase("anticaps"))
@@ -48,11 +51,17 @@ public class AntiCaps extends JavaPlugin {
         sendMessage("reload-success", sender);
         return true;
     }
-
+    
+    /**
+     * Sends a message from the messages.yml file to a player.
+     */
     public void sendMessage(String messageKey, Player player) {
         sendMessage(messageKey, (CommandSender) player);
     }
-
+    
+    /**
+     * Sends a message from the messages.yml file to a command sender.
+     */
     public void sendMessage(String messageKey, CommandSender sender) {
         String prefix = getMessage("prefix");
         String message = getMessage("messages." + messageKey);
@@ -61,20 +70,20 @@ public class AntiCaps extends JavaPlugin {
 
         sender.sendMessage(colorize(prefix + message));
     }
-
+    
     private void loadMessages() {
         File messagesFile = new File(getDataFolder(), MESSAGES_FILE);
         if (!messagesFile.exists())
             saveResource(MESSAGES_FILE, false);
         this.messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
     }
-
+    
     private String getMessage(String path) {
         if (messagesConfig == null)
             return null;
         return messagesConfig.getString(path);
     }
-
+    
     private String colorize(String message) {
         if (message == null)
             return "";
